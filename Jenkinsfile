@@ -26,6 +26,22 @@ pipeline{
                 sh 'echo "Code Testing"'
             }
         }
+        stage("Pushing-Docker-Image"){
+            steps{
+                sh 'echo "Pushing Docker Image"'
+                withCredentials([
+             usernamePassword(
+                 credentialsId: 'DockerCred',
+                 usernameVariable: 'DOCKER_USERNAME',
+                passwordVariable: 'DOCKER_PASSWORD'
+            )
+            ])
+                sh 'docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD'
+                sh 'docker image tag authserviceimages:latest  abhishekkargeti/authserviceimages:latest'
+                sh 'docker push abhishekkargeti/authserviceimages:latest '
+                sh 'echo "Image Push Successfully"'
+            }
+        }
         stage("Deployment"){
             steps{
                 sh 'echo "Code Deployment"'
