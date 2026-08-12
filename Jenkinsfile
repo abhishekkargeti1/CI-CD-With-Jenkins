@@ -29,7 +29,9 @@ pipeline{
         stage("Deployment"){
             steps{
                 sh 'echo "Code Deployment"'
-                sh 'docker run -it -d --name myauthservicecontainer -e DB_URL=jdbc:mysql://mysqlcontainer:3306/employees -e DB_USERNAME=root -e DB_PASSWORD=1808 -p 8080:8080 --network myauthservernetwork authserviceimages:latest '
+                sh 'docker stop myauthserviceapp' 
+                sh 'docker rm myauthserviceapp '
+                sh 'docker run -it -d --name myauthserviceapp -e DB_URL=jdbc:mysql://mysqlcontainer:3306/employees -e DB_USERNAME=root -e DB_PASSWORD=1808 -p 8080:8087 --network myauthservernetwork authserviceimages:latest '
             }
         }
     }
