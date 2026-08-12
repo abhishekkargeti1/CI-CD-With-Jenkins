@@ -9,9 +9,15 @@ pipeline{
                 git url :"https://github.com/abhishekkargeti1/CI-CD-With-Jenkins.git",branch:"main"
             }
         }
-        stage("Building"){
+        stage("Building-JAR"){
             steps{
                 sh 'echo "Code Building"'
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+        stage("Building-Docker-Image"){
+            steps{
+                sh 'echo "Docker Image Building"'
                 sh 'docker build -t authserviceimages:latest .'
             }
         }
