@@ -29,14 +29,14 @@ pipeline{
         stage("Pushing-Docker-Image"){
             steps{
                 sh 'echo "Pushing Docker Image"'
-                withCredentials([
+            withCredentials([
              usernamePassword(
                  credentialsId: 'DockerCred',
                  usernameVariable: 'DOCKER_USERNAME',
-                passwordVariable: 'DOCKER_PASSWORD'
+                 passwordVariable: 'DOCKER_PASSWORD'
             )
-            ])
-                sh 'docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD'
+        ])
+                sh 'docker login -u ${env.DOCKER_USERNAME} -p ${env.DOCKER_PASSWORD}'
                 sh 'docker image tag authserviceimages:latest  abhishekkargeti/authserviceimages:latest'
                 sh 'docker push abhishekkargeti/authserviceimages:latest '
                 sh 'echo "Image Push Successfully"'
@@ -47,7 +47,7 @@ pipeline{
                 sh 'echo "Code Deployment"'
                 sh 'docker stop myauthserviceapp || true' 
                 sh 'docker rm myauthserviceapp || true'
-                sh 'docker run -it -d --name myauthserviceapp -e DB_URL=jdbc:mysql://mysqlcontainer:3306/employee -e DB_USERNAME=root -e DB_PASSWORD=1808 -p 8080:8087 --network myauthservernetwork authserviceimages:latest '
+                sh 'docker run -it -d --name myauthserviceapp -e DB_URL=jdbc:mysql://mysqlcontainer:3306/employee -e DB_USERNAME=${DB_USERNAME} -e DB_PASSWORD=${env.DB_PASSWORD} -p 8080:8087 --network myauthservernetwork authserviceimages:latest '
             }
         }
     }
