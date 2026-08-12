@@ -35,13 +35,14 @@ pipeline{
                  usernameVariable: 'DOCKER_USERNAME',
                  passwordVariable: 'DOCKER_PASSWORD'
             )
-        ])
-                sh 'docker login -u ${env.DOCKER_USERNAME} -p ${env.DOCKER_PASSWORD}'
-                sh 'docker image tag authserviceimages:latest  abhishekkargeti/authserviceimages:latest'
-                sh 'docker push abhishekkargeti/authserviceimages:latest '
-                sh 'echo "Image Push Successfully"'
+                ]){
+                    sh 'docker login -u ${env.DOCKER_USERNAME} -p ${env.DOCKER_PASSWORD}'
+                    sh 'docker image tag authserviceimages:latest  abhishekkargeti/authserviceimages:latest'
+                    sh 'docker push abhishekkargeti/authserviceimages:latest '
+                    sh 'echo "Image Push Successfully"'
+                }
             }
-        }
+        } 
         stage("Deployment"){
             steps{
                 sh 'echo "Code Deployment"'
