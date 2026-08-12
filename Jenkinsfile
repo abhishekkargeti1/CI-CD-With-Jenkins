@@ -48,6 +48,7 @@ pipeline{
                 sh 'docker stop myauthserviceapp || true' 
                 sh 'docker rm myauthserviceapp || true'
                 sh 'docker run -it -d --name myauthserviceapp -e DB_URL=jdbc:mysql://mysqlcontainer:3306/employee -e DB_USERNAME=${DB_USERNAME} -e DB_PASSWORD=${env.DB_PASSWORD} -p 8080:8087 --network myauthservernetwork authserviceimages:latest '
+                sh 'docker image prune -f'
             }
         }
     }
