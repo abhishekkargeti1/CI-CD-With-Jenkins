@@ -12,6 +12,7 @@ pipeline{
         stage("Building"){
             steps{
                 sh 'echo "Code Building"'
+                sh 'docker build -t authserviceimage:latest .'
             }
         }
         stage("Testing"){
@@ -22,6 +23,7 @@ pipeline{
         stage("Deployment"){
             steps{
                 sh 'echo "Code Deployment"'
+                sh 'docker run -it -d --name myauthservicecontainer -e DB_URL=jdbc:mysql://mysqlcontainer:3306/employees -e DB_USERNAME=root -e DB_PASSWORD=1808 -p 8080:8080 --network myauthservernetwork authserviceimage:latest '
             }
         }
     }
