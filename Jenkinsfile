@@ -3,24 +3,24 @@ pipeline{
         label "agent-1"
     }
     stages{
-        stage{
-            steps("Code Cloning"){
+        stage("Code Cloning"){
+            steps{
                 sh 'echo "Code Cloning"'
                 git url :"https://github.com/abhishekkargeti1/CI-CD-With-Jenkins.git",branch:"main"
             }
         }
-        stage{
-            steps("Building"){
+        stage("Building"){
+            steps{
                 sh 'echo "Code Building"'
             }
         }
-        stage{
-            steps("Testing"){
+        stage("Testing"){
+            steps{
                 sh 'echo "Code Testing"'
             }
         }
-        stage{
-            steps("Deployment"){
+        stage("Deployment"){
+            steps{
                 sh 'echo "Code Deployment"'
             }
         }
