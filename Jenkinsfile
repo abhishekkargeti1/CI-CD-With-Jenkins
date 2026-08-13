@@ -46,14 +46,14 @@ pipeline{
         stage("Deployment"){
             steps{
                 sh 'echo "Code Deployment"'
-                sh 'docker stop myauthserviceapp || true' 
-                sh 'docker rm myauthserviceapp || true'
-                sh 'echo "$DB_PASSWORD"'
-                sh 'docker run -it -d --name myauthserviceapp -e DB_URL=jdbc:mysql://mysqlcontainer:3306/employees -e DB_USERNAME=$DB_USERNAME -e DB_PASSWORD=$DB_PASSWORD -p 8080:8087 --network myauthservernetwork authserviceimages:latest '
-                sh 'docker image prune -f'
-            }
+                     sh 'docker pull abhishekkargeti/authserviceimages:latest '
+                     sh 'docker stop myauthserviceapp || true' 
+                     sh 'docker rm myauthserviceapp || true'
+                     sh 'docker run -it -d --name myauthserviceapp -e DB_URL=jdbc:mysql://mysqlcontainer:3306/employees -e DB_USERNAME= "$DB_USERNAME" -e DB_PASSWORD= "$DB_PASSWORD" -p 8080:8087 --network myauthservernetwork abhishekkargeti/authserviceimages:latest '
+                     sh 'docker image prune -f'
         }
     }
+}
 
 
 
